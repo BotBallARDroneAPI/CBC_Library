@@ -1,0 +1,385 @@
+<ui version="4.0" >
+ <class>Console</class>
+ <widget class="QWidget" name="Console" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>213</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="spacing" >
+    <number>0</number>
+   </property>
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QPlainTextEdit" native="1" name="ui_console" >
+     <property name="styleSheet" >
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <property name="spacing" >
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="ui_leftButton" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize" >
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet" >
+          <string>QPushButton{
+border:0px;
+background-image:url(:/actions/arrowLf-30L.png);
+color:black;
+font:bold;
+font-size:12pt;
+}
+QPushButton:pressed{
+border:0px;
+background-image:url(:/actions/arrowLf-30D.png);
+color:white;
+font:bold;
+font-size:12pt;
+}</string>
+         </property>
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="iconSize" >
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" >
+         <property name="spacing" >
+          <number>3</number>
+         </property>
+         <property name="sizeConstraint" >
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item>
+          <widget class="QPushButton" name="ui_upButton" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
+             <horstretch>20</horstretch>
+             <verstretch>20</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize" >
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="styleSheet" >
+            <string>QPushButton{
+border:0px;
+background-image:url(:/actions/arrowUp-30L.png);
+color:black;
+font:bold;
+font-size:12pt;
+}
+QPushButton:pressed{
+border:0px;
+background-image:url(:/actions/arrowUp-30D.png);
+color:white;
+font:bold;
+font-size:12pt;
+}</string>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ui_downButton" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize" >
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="styleSheet" >
+            <string>QPushButton{
+border:0px;
+background-image:url(:/actions/arrowDn-30L.png);
+color:black;
+font:bold;
+font-size:12pt;
+}
+QPushButton:pressed{
+border:0px;
+background-image:url(:/actions/arrowDn-30D.png);
+color:white;
+font:bold;
+font-size:12pt;
+}</string>
+           </property>
+           <property name="text" >
+            <string/>
+           </property>
+           <property name="iconSize" >
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="ui_rightButton" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize" >
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize" >
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet" >
+          <string>QPushButton{
+border:0px;
+background-image:url(:/actions/arrowRt-30L.png);
+color:black;
+font:bold;
+font-size:12pt;
+}
+QPushButton:pressed{
+border:0px;
+background-image:url(:/actions/arrowRt-30D.png);
+color:white;
+font:bold;
+font-size:12pt;
+}</string>
+         </property>
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="iconSize" >
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ui_aButton" >
+       <property name="minimumSize" >
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet" >
+        <string>QPushButton{
+border:0px;
+background-image:url(:/actions/rivet80x30L.png);
+color:black;
+font:bold;
+font-size:12pt;
+}
+QPushButton:pressed{
+border:0px;
+background-image:url(:/actions/rivet80x30D.png);
+color:white;
+font:bold;
+font-size:12pt;
+}</string>
+       </property>
+       <property name="text" >
+        <string>A</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ui_bButton" >
+       <property name="minimumSize" >
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet" >
+        <string>QPushButton{
+border:0px;
+background-image:url(:/actions/rivet80x30L.png);
+color:black;
+font:bold;
+font-size:12pt;
+}
+QPushButton:pressed{
+border:0px;
+background-image:url(:/actions/rivet80x30D.png);
+color:white;
+font:bold;
+font-size:12pt;
+}</string>
+       </property>
+       <property name="text" >
+        <string>B</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QPlainTextEdit</class>
+   <extends>QWidget</extends>
+   <header>qplaintextedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../rc/images.qrc" />
+ </resources>
+ <connections/>
+</ui>
