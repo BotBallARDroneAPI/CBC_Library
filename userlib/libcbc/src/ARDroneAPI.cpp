@@ -401,10 +401,16 @@ void drone_animation(int animationType, int tInterval)
 {
 	while(locker==LOCKED) {}
 	locker = LOCKED;
-	move_type = MOVEMENT;
+	move_type = ANIMATION;
 	anim_type = animationType;
 	locker = UNLOCKED;
 
 	msleep(tInterval);
+
+	//return movement type to MOVEMENT
+	while(locker==LOCKED) {}
+	locker = LOCKED;
+	move_type = MOVEMENT;
+	locker = UNLOCKED;	
 }
 
