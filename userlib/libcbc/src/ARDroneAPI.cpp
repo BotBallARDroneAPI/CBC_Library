@@ -30,6 +30,7 @@ int watchdog_pid;
 int move_type = MOVEMENT;
 int anim_type = 0;
 int locker = UNLOCKED;
+int anim_time = 0;
 
 int cached_battery = 0;
 float x,y,z,yaw;
@@ -297,14 +298,16 @@ void disable_drone_vision()
 
 void move_control_thread()
 {
-	int request;
+	/*int request;
 	int anim_request;
+	int t;
 	while(true)
 	{
 		while(locker==LOCKED) {}
 		locker = LOCKED;
 		request = move_type;
 		anim_request = anim_type;
+		t = anim_time;
 		locker = UNLOCKED;
 
 		switch(request)
@@ -318,9 +321,10 @@ void move_control_thread()
 			}
 			case ANIMATION:
 			{
-				myDrone->controller().sendAnimationControl((AnimationCmd)anim_request);
+				myDrone->controller().sendAnimationControl((AnimationCmd)anim_request, t);
 				myDrone->controller().sendWatchDog();//ensures the drone doesn't lose connection
 				msleep(5);
+				move_type = MOVEMENT;
 				break;
 			}
 			default:
@@ -330,7 +334,14 @@ void move_control_thread()
 			}
 		}	
 
-		
+	}
+	*/
+
+	while(true)
+	{
+		myDrone->controller().sendControlParameters(requested_enable_move, requested_x_tilt, requested_y_tilt, requested_yaw_vel, requested_z_vel);
+		myDrone->controller().sendWatchDog();//ensures the drone doesn't lose connection
+		msleep(5);
 	}
 }
 void drone_move(float x_tilt, float y_tilt, float yaw_vel, float z_vel)
@@ -399,18 +410,20 @@ void drone_set_detection(int detectType)
 
 void drone_animation(int animationType, int tInterval)
 {
-	while(locker==LOCKED) {}
+	/*while(locker==LOCKED);
+
 	locker = LOCKED;
 	move_type = ANIMATION;
 	anim_type = animationType;
+	anim_time = tInterval;
 	locker = UNLOCKED;
 
+	drone_move(0,0,0,0);
 	msleep(tInterval);
+	*/
 
-	//return movement type to MOVEMENT
-	while(locker==LOCKED) {}
-	locker = LOCKED;
-	move_type = MOVEMENT;
-	locker = UNLOCKED;	
+	drone_move(0,0,0,0);
+	myDrone->controller().sendAnimationControl((AnimationCmd)animationType, anim_time);
+	msleep(tInterval);
 }
 

@@ -82,7 +82,7 @@ namespace ARDrone
 	ARDRONE_ANIM_WAVE = 13,
 	ARDRONE_ANIM_PHI_THETA_MIXED = 14,
 	ARDRONE_ANIM_DOUBLE_PHI_THETA_MIXED = 15
-	}
+	};
 	
 	class Controller
 		{
@@ -181,7 +181,7 @@ namespace ARDrone
 			@brief Sends the given animation as an animation command to the Drone
 			@param Identifies the desired animation. See AnimationCmd enum
 			**/
-			void sendAnimationControl(AnimationCmd myAnim);
+			void sendAnimationControl(AnimationCmd myAnim, int msTime);
 			
 			/**
 			@brief Sends a "Watchdog" (AT Command to ensure constant communication) command to the drone 
