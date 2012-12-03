@@ -8,6 +8,7 @@ const std::string DRONE_IP =  "192.168.1.1";
 const int NAVIGATION_DATA_PORT = 5554;
 const int VIDEO_DATA_PORT = 5555;
 const int ATCOMMAND_PORT = 5556;
+const int CONFIG_DATA_PORT = 5559;
 
 //I DONT THINK THESE ARE BEING USED
 const int NAVDATA_STATE_DATA_OFFSET =  4;
@@ -19,6 +20,7 @@ const unsigned int INTERVAL = 100;
 
 //Controller Constants
 const std::string ATCONFIG_COMMAND = "AT*CONFIG=";
+const std::string ATCTRL_COMMAND = "AT*CTRL=";
 const std::string ATFLAT_TRIM_COMMAND = "AT*FTRIM=";
 const std::string ATSTATE_COMMAND = "AT*REF="; //LAND TAKEOFF TOGGLE_EMERGENCY
 const std::string ATMOVE_COMMAND = "AT*PCMD=";
@@ -52,6 +54,8 @@ const std::string CONTROL_LEVEL = ",\"control:control_level\",\"";
 
 const std::string MINIMAL_NAV_DATA_ARG = ",\"general:navdata_demo\",\"TRUE\"";
 const std::string ALL_NAV_DATA_ARG = ",\"general:navdata_demo\",\"FALSE\"";
+
+const std::string REQUEST_CONFIG_DATA = ",4,0";
 
 const std::string REQUEST_VISION_TAG_DATA_ARG = ",\"general:navdata_options\",\"65537\"";
 

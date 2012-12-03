@@ -83,6 +83,10 @@ namespace ARDrone
 			myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), ALL_NAV_DATA_ARG.c_str(), 20);
 		}
 	}
+	void Controller::requestConfigData()
+	{
+		myCommunicationChannel.sendAT(ATCTRL_COMMAND.c_str(), REQUEST_CONFIG_DATA.c_str());
+	}
 	void Controller::requestNavigationVisionTagData()
 	{
 		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), REQUEST_VISION_TAG_DATA_ARG.c_str(), 20);

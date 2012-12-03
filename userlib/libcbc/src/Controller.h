@@ -139,6 +139,12 @@ namespace ARDrone
 			void requestNavigationData(NavDataSize size);
 
 			/**
+			@brief Tells the drone to send configuration data on port 5559.  Control data contains drone information like 
+					(control level, max altitude, drone version, etc)
+			**/
+			void requestConfigData();
+
+			/**
 			@brief Sends an AT Command to the drone requesting it to include any 
 					detected vision tag data in the NavData
 			**/

@@ -7,6 +7,7 @@
 #include <string>
 #include "MemoryLibrary.h"
 #include "NavigationData.h"
+#include "CommunicationChannel.h"
 #include "Controller.h"
 
 namespace ARDrone
