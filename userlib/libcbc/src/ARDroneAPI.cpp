@@ -437,8 +437,3 @@ void drone_animation(int animationType, int tInterval)
 */
 }
 
-
-void drone_LED_animation(int LED_animation, float frequency, int tInterval)
-{
-	myDrone->controller().sendLEDAnimationControl(LED_animation, *(int*)(&frequency), tInterval * 1000);
-}

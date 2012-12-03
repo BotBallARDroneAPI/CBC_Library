@@ -44,7 +44,7 @@ namespace ARDrone
 	};
 	
 	/** 
-	 @brief An Enum to provide a textual parameter to feed into the flyMode Command
+	 @brief An Enum to provide a textual parameter to feed into the requestNavigationData Command
 	 **/
 	enum FlyMode
 	{
@@ -63,7 +63,7 @@ namespace ARDrone
 	};
 
 	/** 
-	 @brief An Enum to provide a textual parameter to feed into the Animation Command
+	 @brief An Enum to provide a textual parameter to feed into the NavDataSend Command
 	 **/
 	enum AnimationCmd{
 		ARDRONE_ANIM_PHI_M30_DEG= 0,
@@ -82,33 +82,6 @@ namespace ARDrone
 		ARDRONE_ANIM_WAVE = 13,
 		ARDRONE_ANIM_PHI_THETA_MIXED = 14,
 		ARDRONE_ANIM_DOUBLE_PHI_THETA_MIXED = 15
-	};
-
-	/** 
-	 @brief An Enum to provide a textual parameter to feed into the LED_Animation Command
-	 **/
-	enum LED_AnimationCmd{
-		ARDRONE_LED_ANIMATION_BLINK_GREEN_RED = 0,
-		ARDRONE_LED_ANIMATION_BLINK_GREEN = 1,
-		ARDRONE_LED_ANIMATION_BLINK_RED = 2,
-		ARDRONE_LED_ANIMATION_BLINK_ORANGE = 3,
-		ARDRONE_LED_ANIMATION_SNAKE_GREEN_RED = 4,
-		ARDRONE_LED_ANIMATION_FIRE = 5,
-		ARDRONE_LED_ANIMATION_STANDARD = 6,
-		ARDRONE_LED_ANIMATION_RED = 7,
-		ARDRONE_LED_ANIMATION_GREEN = 8,
-		ARDRONE_LED_ANIMATION_RED_SNAKE = 9,
-		ARDRONE_LED_ANIMATION_BLANK = 10,
-		ARDRONE_LED_ANIMATION_RIGHT_MISSILE = 11,
-		ARDRONE_LED_ANIMATION_LEFT_MISSILE = 12,
-		ARDRONE_LED_ANIMATION_DOUBLE_MISSILE = 13,
-		ARDRONE_LED_ANIMATION_FRONT_LEFT_GREEN_OTHERS_RED = 14,
-		ARDRONE_LED_ANIMATION_FRONT_RIGHT_GREEN_OTHERS_RED = 15,
-		ARDRONE_LED_ANIMATION_REAR_RIGHT_GREEN_OTHERS_RED = 16,
-		ARDRONE_LED_ANIMATION_REAR_LEFT_GREEN_OTHERS_RED = 17
-		ARDRONE_LED_ANIMATION_LEFT_GREEN_RIGHT_RED = 18
-		ARDRONE_LED_ANIMATION_LEFT_RED_RIGHT_GREEN = 19
-		ARDRONE_LED_ANIMATION_BLINK_STANDARD = 20
 	};
 	
 	class Controller
@@ -215,13 +188,6 @@ namespace ARDrone
 			@param Identifies the desired animation. See AnimationCmd enum
 			**/
 			void sendAnimationControl(AnimationCmd myAnim, int msTime);
-
-			/**
-			@brief Sends the given LED animation as an LED_animation command to the Drone
-			@param Identifies the desired LED animation. See LED_AnimationCmd enum
-			@param Identifies the frequency of the LED Animation
-			**/
-			void sendLEDAnimationControl(LED_AnimationCmd LED_animation, int frequency, int tInterval);
 			
 			/**
 			@brief Sends a "Watchdog" (AT Command to ensure constant communication) command to the drone 

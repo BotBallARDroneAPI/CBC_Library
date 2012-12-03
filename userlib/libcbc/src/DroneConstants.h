@@ -87,7 +87,6 @@ const std::string FLYING_MODE_HOVER_ON_ORIENTED_ROUNDEL_ARG = ",\"control:flying
 const std::string VIDEO_CONTROL_MODE_DISABLE_ARG = ",\"video:bitrate_ctrl_mode\",\"0\"";
 
 const std::string ANIMATION_CONTROL_ARG = ",\"control:flight_anim\",\"";
-const std::string LED_ANIMATION_CONTROL_ARG = ",\"leds:leds_anim\",\"";
 
 // ARDroneAPI Constants
 const float DRIFT_TOLERANCE = 0.001;
