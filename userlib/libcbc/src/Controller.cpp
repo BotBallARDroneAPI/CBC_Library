@@ -120,6 +120,12 @@ namespace ARDrone
 		strStm << ANIMATION_CONTROL_ARG.c_str() << (int)myAnim << "," << msTime << "\""; 
 		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(),  strStm.str().c_str());		
 	}
+	void Controller::sendLEDAnimationControl(LED_AnimationCmd LED_animation, int frequency, int tInterval)
+	{
+		std::stringstream strStm;
+		strStm << LED_ANIMATION_CONTROL_ARG.c_str() << int(LED_animation) << "," << frequency << "," << tInterval << "\"";
+		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(),  strStm.str().c_str());	
+	}
 	void Controller::sendWatchDog()
 	{
 		myCommunicationChannel.sendAT(ATWATCHDOG_COMMAND.c_str(), "");
