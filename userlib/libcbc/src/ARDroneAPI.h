@@ -202,6 +202,36 @@ extern "C" {
 	 @pre drone_connect must have been previously called to establish a connection to the drone.
 	 **/
 	void drone_animation(int animationType, int tInterval);
+
+		/**
+	 @brief Commands the drone to perform LED animations
+	 @param animationType specifies the animation to be performed
+						ARDRONE_LED_ANIMATION_BLINK_GREEN_RED = 0
+						ARDRONE_LED_ANIMATION_BLINK_GREEN = 1
+						ARDRONE_LED_ANIMATION_BLINK_RED = 2
+						ARDRONE_LED_ANIMATION_BLINK_ORANGE = 3
+						ARDRONE_LED_ANIMATION_SNAKE_GREEN_RED = 4
+						ARDRONE_LED_ANIMATION_FIRE = 5
+						ARDRONE_LED_ANIMATION_STANDARD = 6
+						ARDRONE_LED_ANIMATION_RED = 7
+						ARDRONE_LED_ANIMATION_GREEN = 8
+						ARDRONE_LED_ANIMATION_RED_SNAKE = 9
+						ARDRONE_LED_ANIMATION_BLANK = 10
+						ARDRONE_LED_ANIMATION_RIGHT_MISSILE = 11
+						ARDRONE_LED_ANIMATION_LEFT_MISSILE = 12
+						ARDRONE_LED_ANIMATION_DOUBLE_MISSILE = 13
+						ARDRONE_LED_ANIMATION_FRONT_LEFT_GREEN_OTHERS_RED = 14
+						ARDRONE_LED_ANIMATION_FRONT_RIGHT_GREEN_OTHERS_RED = 15
+						ARDRONE_LED_ANIMATION_REAR_RIGHT_GREEN_OTHERS_RED = 16
+						ARDRONE_LED_ANIMATION_REAR_LEFT_GREEN_OTHERS_RED = 17
+						ARDRONE_LED_ANIMATION_LEFT_GREEN_RIGHT_RED = 18
+						ARDRONE_LED_ANIMATION_LEFT_RED_RIGHT_GREEN = 19
+						ARDRONE_LED_ANIMATION_BLINK_STANDARD = 20
+	 @param frequency specifies the frequency (Hz) for the animations to play at.
+	 @param tInterval specifies the duration of the animation in milliseconds
+	 @pre drone_connect must have been previously called to establish a connection to the drone.
+	 **/
+	void drone_LED_animation(int LED_animation, float frequency, int tInterval);
 	
 	
 #ifdef __cplusplus
