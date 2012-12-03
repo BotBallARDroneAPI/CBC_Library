@@ -134,10 +134,10 @@ extern "C" {
 			negative values are left and positive values are right. Ex: -.5 means Half of the total tilt left
 	 @param y_tilt A value from zero to one indicating the percentage of maximum tilt in the forward or backward direction
 			negative values are left and positive values are right. Ex: -.5 means Half of the total tilt backwards.
-	 @param yaw_vel A value indicating the rotational velocity of the dronein milieters per second
 	 @param z_vel A value indicating the change in altitude in milimeters per second
+	 @param yaw_vel A value indicating the rotational velocity of the dronein milieters per second
 	 **/
-	void drone_move(float x_tilt, float y_tilt, float yaw_vel, float z_vel);
+	void drone_move(float x_tilt, float y_tilt, float z_vel, float yaw_vel);
 	
 	/**
 	 @brief Tells the drone that it should stop moving and hover at its current location

@@ -75,6 +75,7 @@ void monitor_sensors()
 
 void drone_connect()
 {
+	move_type = MOVEMENT;
 	if(!drone_connected)
 	{
 		myDrone = new Drone();
@@ -344,7 +345,7 @@ void move_control_thread()
 		msleep(5);
 	}*/
 }
-void drone_move(float x_tilt, float y_tilt, float yaw_vel, float z_vel)
+void drone_move(float x_tilt, float y_tilt, float z_vel, float yaw_vel)
 {
 	requested_enable_move = true;
 	requested_x_tilt = x_tilt;
@@ -410,7 +411,7 @@ void drone_set_detection(int detectType)
 
 void drone_animation(int animationType, int tInterval)
 {
-	while(locker==LOCKED);
+	while(locker==LOCKED) {}
 
 	locker = LOCKED;
 	move_type = ANIMATION;
@@ -421,7 +422,7 @@ void drone_animation(int animationType, int tInterval)
 	drone_move(0,0,0,0);
 	msleep(tInterval);
 
-	while(locker==LOCKED);
+	while(locker==LOCKED) {}
 	locker = LOCKED;
 	move_type = MOVEMENT;
 	locker = UNLOCKED;

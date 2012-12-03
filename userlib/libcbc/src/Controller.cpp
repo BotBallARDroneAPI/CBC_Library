@@ -107,8 +107,8 @@ namespace ARDrone
 	{
 		std::stringstream strStm;
 		strStm << "," << enable << ','
-		<< floatToIntegerByteByByte(roll) << ','
 		<< floatToIntegerByteByByte(pitch) << ','
+		<< floatToIntegerByteByByte(roll) << ','
 		<< floatToIntegerByteByByte(gaz) << ','
 		<< floatToIntegerByteByByte(yaw);
 		
