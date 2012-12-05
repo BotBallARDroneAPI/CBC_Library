@@ -12,7 +12,6 @@ namespace ARDrone
 	{
 	private:
 		static const int VIDEO_DATA_SIZE = 921600;
-		static const int VIDEO_BUF_SIZE = 2;
 		ARDrone::CommunicationChannel myCommunicationChannel;
 		ccxx::Mutex myMutex;
 		std::string myDroneAddress;
@@ -20,8 +19,8 @@ namespace ARDrone
 		unsigned char myVideoData[VIDEO_DATA_SIZE]; //640x480x3 MAX out
 		unsigned int videoDataLength;
 		//Mod by Jeremy Rand
-		VideoDecoder::Image videoBuffer[VIDEO_BUF_SIZE];
-		long videoTimestamp[VIDEO_BUF_SIZE]; 
+		VideoDecoder::Image videoBuffer[2];
+		long videoTimestamp[2]; 
 		int safeBufferIndex;
 		bool enableCbcuiVision;
 		//End Mod
