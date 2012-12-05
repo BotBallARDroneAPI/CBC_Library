@@ -65,7 +65,8 @@ namespace ARDrone
 	/** 
 	 @brief An Enum to provide a textual parameter to feed into the Animation Command
 	 **/
-	enum AnimationCmd{
+	enum AnimationCmd
+	{
 		ARDRONE_ANIM_PHI_M30_DEG= 0,
 		ARDRONE_ANIM_PHI_30_DEG = 1,
 		ARDRONE_ANIM_THETA_M30_DEG = 2,
@@ -87,7 +88,8 @@ namespace ARDrone
 	/** 
 	 @brief An Enum to provide a textual parameter to feed into the LED_Animation Command
 	 **/
-	enum LED_AnimationCmd{
+	enum LED_AnimationCmd
+	{
 		ARDRONE_LED_ANIMATION_BLINK_GREEN_RED = 0,
 		ARDRONE_LED_ANIMATION_BLINK_GREEN = 1,
 		ARDRONE_LED_ANIMATION_BLINK_RED = 2,
@@ -105,9 +107,9 @@ namespace ARDrone
 		ARDRONE_LED_ANIMATION_FRONT_LEFT_GREEN_OTHERS_RED = 14,
 		ARDRONE_LED_ANIMATION_FRONT_RIGHT_GREEN_OTHERS_RED = 15,
 		ARDRONE_LED_ANIMATION_REAR_RIGHT_GREEN_OTHERS_RED = 16,
-		ARDRONE_LED_ANIMATION_REAR_LEFT_GREEN_OTHERS_RED = 17
-		ARDRONE_LED_ANIMATION_LEFT_GREEN_RIGHT_RED = 18
-		ARDRONE_LED_ANIMATION_LEFT_RED_RIGHT_GREEN = 19
+		ARDRONE_LED_ANIMATION_REAR_LEFT_GREEN_OTHERS_RED = 17,
+		ARDRONE_LED_ANIMATION_LEFT_GREEN_RIGHT_RED = 18,
+		ARDRONE_LED_ANIMATION_LEFT_RED_RIGHT_GREEN = 19,
 		ARDRONE_LED_ANIMATION_BLINK_STANDARD = 20
 	};
 	
@@ -259,6 +261,17 @@ namespace ARDrone
 			void setUltrasoundFrequency(UltrasoundChannel channel);
 			
 			/**
+			 @brief Changes the ARDrone's bitrate control mode to the given parameter
+			 @param mode the mode that we would like to switch to
+					VBC_MODE_DISABLED	ARDRone 1 - dont use 
+										ARDrone 2 -Bitrate set to max_bitrate
+					VBC_MODE_DYNAMIC	ARDRone 1 - Image sizes vary from 500-25000 bytes per frame
+										ARDrone 2 - Video Bitrate varies from 250kbps-max_bitrate
+					VBC_MODE_MANUAL		ARDrone 1 + 2 Video Bitrate is fixed by the video:bitrate key
+			 **/
+			void setBitrateControlMode(int mode);
+			
+			/**
 			@brief Sets the drone's bitrate to the given value
 			@param bitrate The number of bits per second the drone can transmit
 			**/
@@ -317,6 +330,13 @@ namespace ARDrone
 			@brief Disables all drone tagging systems
 			**/
 			void disableDroneTagging();
+			
+			/**
+			 @brief Sends a command to the drone to reset the Acknowledgement bit
+			 **/
+			void sendResetAcknowledgeBit();
+			
+			void sendACKCommand();
 		};
 }//namespace ARDrone
 #endif

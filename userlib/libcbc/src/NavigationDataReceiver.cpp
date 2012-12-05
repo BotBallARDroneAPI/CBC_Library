@@ -41,7 +41,6 @@ namespace ARDrone
 	void NavigationDataReceiver::run()
 	{
 		std::cout << "NavigationDataReceiver started\n";
-		int cnt = 0;
 		try 
 		{
 			myCommunicationChannel.connectWithDroneAtAddress(myDroneAddress.c_str(), NAVIGATION_DATA_PORT);
@@ -51,27 +50,33 @@ namespace ARDrone
 			myCommunicationChannel.send(trigger, 4);
 						
 			unsigned char navDataDemo[10240];
+			//char buffer[600];
 			unsigned int navDataLength = 10240;
+			myCommunicationChannel.receive(navDataDemo, navDataLength);
+			MemoryLibrary::Buffer navDataBuffer(navDataDemo, navDataLength);
+			parse(navDataBuffer);
+			while(getDemoModeFlag() == false)
+			{
+				std::cout<< "Changing Drone to Demo Mode (Removing Parrot debug data)";
+				myController->requestNavigationData(DEMO);
+				if(getAcknowledgementFlag() == true)
+				{
+					std::cout << "Resetting Acknowlege Bit";
+					myController->sendResetAcknowledgeBit();
+				}
+			}
 			while(false == testCancel())
 			{
 				try 
 				{
-					myController->requestNavigationData(DEMO);
 					myCommunicationChannel.receive(navDataDemo, navDataLength);
-					cnt++;
-					if(cnt >= 5)
-					{
-						cnt = 0;
 						synchronized(myMutex)
 						{
 							MemoryLibrary::Buffer navDataBuffer(navDataDemo, navDataLength);
 							parse(navDataBuffer);
-							
-							//Jeremy Rand Mod
 							navTimestamp = (long)(seconds() * 1000.0);
-							
 						}
-					}
+					msleep(200); //slow things down a bit
 				}
 				catch (ccxx::TimeoutException& timeoutEx) 
 				{
@@ -83,7 +88,7 @@ namespace ARDrone
 				}
 			}//while
 		}
-		catch (ccxx::Exception& ex) 
+		catch (ccxx::Exception& ex)
 		{
 			std::cout << "NavigationDataReceiver exception thrown.." << ex.what() << std::endl;
 		}
@@ -100,18 +105,18 @@ namespace ARDrone
 			std::cout << "NavigationDataReceiver FAIL, because the header != 0x55667788\n";
 			return false;
 		}
-		
 		offset += 4;
+		
 		int state = buffer.MakeValueFromOffset<int32_t>(offset);
-		parseState(state);
-		
+		parseState(state);	
 		offset += 4;
+		
 		myNavData.sequence = buffer.MakeValueFromOffset<int32_t>(offset);
-		
 		offset += 4;
-		// int vision_tag;
 		
+		myNavData.visionFlag = buffer.MakeValueFromOffset<int32_t>(offset);
 		offset += 4;
+		
 		while(offset < buffer.Size())
 		{
 			int option_tag = (int)buffer.MakeValueFromOffset<unsigned short>(offset);
@@ -127,9 +132,13 @@ namespace ARDrone
 			
 			switch(option_tag)
 			{
-				case NAVDATA_DEMO_TAG: parseNavigation(buffer, offset); break;
+				case NAVDATA_DEMO_TAG: 
+					parseNavigation(buffer, offset); 
+					break;
 				case NAVDATA_CKS_TAG:  break;
-				case NAVDATA_VISION_DETECT_TAG: parseVision(buffer, offset); break;
+				case NAVDATA_VISION_DETECT_TAG: 
+					parseVision(buffer, offset); 
+					break;
 			}
 			
 			offset = offset + option_len - 4;
@@ -137,43 +146,14 @@ namespace ARDrone
 		
 		return true;
 	}
-	
-	bool NavigationDataReceiver::parseState(int state)
+	bool NavigationDataReceiver::getDemoModeFlag()
 	{
-		myNavData.flags.flying = (state & 1) != 0;
-		myNavData.flags.videoEnabled = (state & (1 << 1)) != 0;
-		myNavData.flags.visionEnabled = (state & (1 << 2)) != 0;
-		myNavData.controlAlgorithm = (state & (1 << 3)) != 0 ? ARDrone::eAugularSpeedControl : ARDrone::eEulerAnglesControl;
-		myNavData.flags.altitudeControlActive = (state & (1 << 4)) != 0;
-		myNavData.flags.userFeedbackOn = (state & (1 << 5)) != 0;
-		myNavData.flags.controlReceived = (state & (1 << 6)) != 0;
-		myNavData.flags.trimReceived = (state & (1 << 7)) != 0;
-		myNavData.flags.trimRunning = (state & (1 << 8)) != 0;
-		myNavData.flags.trimSucceeded = (state & (1 << 9)) != 0;
-		myNavData.flags.navDataDemoOnly = (state & (1 << 10)) != 0;
-		myNavData.flags.navDataBootstrap = (state & (1 << 11)) != 0;
-		myNavData.flags.motorsDown = (state & (1 << 12)) != 0;
-		myNavData.flags.gyrometersDown = (state & (1 << 14)) != 0;
-		myNavData.flags.batteryTooLow = (state & (1 << 15)) != 0;
-		myNavData.flags.batteryTooHigh = (state & (1 << 16)) != 0;
-		myNavData.flags.timerElapsed = (state & (1 << 17)) != 0;
-		myNavData.flags.notEnoughPower = (state & (1 << 18)) != 0;
-		myNavData.flags.angelsOutOufRange = (state & (1 << 19)) != 0;
-		myNavData.flags.tooMuchWind = (state & (1 << 20)) != 0;
-		myNavData.flags.ultrasonicSensorDeaf = (state & (1 << 21)) != 0;
-		myNavData.flags.cutoutSystemDetected = (state & (1 << 22)) != 0;
-		myNavData.flags.PICVersionNumberOK = (state & (1 << 23)) != 0;
-		myNavData.flags.ATCodedThreadOn = (state & (1 << 24)) != 0;
-		myNavData.flags.navDataThreadOn = (state & (1 << 25)) != 0;
-		myNavData.flags.videoThreadOn = (state & (1 << 26)) != 0;
-		myNavData.flags.acquisitionThreadOn = (state & (1 << 27)) != 0;
-		myNavData.flags.controlWatchdogDelayed = (state & (1 << 28)) != 0;
-		myNavData.flags.ADCWatchdogDelayed = (state & (1 << 29)) != 0;
-		myNavData.flags.communicationProblemOccurred = (state & (1 << 30)) != 0;
-		myNavData.flags.emergency = (state & (1 << 31)) != 0;
-		return true;
+		return myNavData.flags.navDataDemoOnly;
 	}
-	
+	bool NavigationDataReceiver::getAcknowledgementFlag()
+	{
+		return myNavData.flags.controlReceived;
+	}
 	void NavigationDataReceiver::parseNavigation(MemoryLibrary::Buffer& buffer, int offset)
 	{
 		int temp = buffer.MakeValueFromOffset<int32_t>(offset);
@@ -195,6 +175,42 @@ namespace ARDrone
 		offset += 4;
 		myNavData.speed.vz = buffer.MakeValueFromOffset<float32_t>(offset);
 		offset += 4;
+	}
+	
+	bool NavigationDataReceiver::parseState(int state)
+	{
+		myNavData.flags.flying =						(state & 1) != 0;
+		myNavData.flags.videoEnabled =					(state & (1 << 1)) != 0;
+		myNavData.flags.visionEnabled =					(state & (1 << 2)) != 0;
+		myNavData.controlAlgorithm =					(state & (1 << 3)) != 0 ? ARDrone::eAugularSpeedControl : ARDrone::eEulerAnglesControl;
+		myNavData.flags.altitudeControlActive =			(state & (1 << 4)) != 0;
+		myNavData.flags.userFeedbackOn =				(state & (1 << 5)) != 0;
+		myNavData.flags.controlReceived =				(state & (1 << 6)) != 0;
+		myNavData.flags.trimReceived =					(state & (1 << 7)) != 0;
+		myNavData.flags.trimRunning =					(state & (1 << 8)) != 0;
+		myNavData.flags.trimSucceeded =					(state & (1 << 9)) != 0;
+		myNavData.flags.navDataDemoOnly =				(state & (1 << 10)) != 0;
+		myNavData.flags.navDataBootstrap =				(state & (1 << 11)) != 0;
+		myNavData.flags.motorsDown =					(state & (1 << 12)) != 0;
+		myNavData.flags.gyrometersDown =				(state & (1 << 14)) != 0;
+		myNavData.flags.batteryTooLow =					(state & (1 << 15)) != 0;
+		myNavData.flags.batteryTooHigh =				(state & (1 << 16)) != 0;
+		myNavData.flags.timerElapsed =					(state & (1 << 17)) != 0;
+		myNavData.flags.notEnoughPower =				(state & (1 << 18)) != 0;
+		myNavData.flags.angelsOutOufRange =				(state & (1 << 19)) != 0;
+		myNavData.flags.tooMuchWind =					(state & (1 << 20)) != 0;
+		myNavData.flags.ultrasonicSensorDeaf =			(state & (1 << 21)) != 0;
+		myNavData.flags.cutoutSystemDetected =			(state & (1 << 22)) != 0;
+		myNavData.flags.PICVersionNumberOK =			(state & (1 << 23)) != 0;
+		myNavData.flags.ATCodedThreadOn =				(state & (1 << 24)) != 0;
+		myNavData.flags.navDataThreadOn =				(state & (1 << 25)) != 0;
+		myNavData.flags.videoThreadOn =					(state & (1 << 26)) != 0;
+		myNavData.flags.acquisitionThreadOn =			(state & (1 << 27)) != 0;
+		myNavData.flags.controlWatchdogDelayed =		(state & (1 << 28)) != 0;
+		myNavData.flags.ADCWatchdogDelayed =			(state & (1 << 29)) != 0;
+		myNavData.flags.communicationProblemOccurred =	(state & (1 << 30)) != 0;
+		myNavData.flags.emergency =						(state & (1 << 31)) != 0;
+		return true;
 	}
 	
 	bool NavigationDataReceiver::parseVision(MemoryLibrary::Buffer& buffer, int offset)

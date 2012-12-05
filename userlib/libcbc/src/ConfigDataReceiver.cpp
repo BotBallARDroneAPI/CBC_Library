@@ -31,32 +31,30 @@ namespace ARDrone
 	void ConfigDataReceiver::run()
 	{
 		std::cout << "ConfigDataReceiver started\n";
-		int cnt = 0;
 		try 
 		{
 			myCommunicationChannel.connectWithDroneAtAddress(myDroneAddress.c_str(), CONFIG_DATA_PORT);
 			myCommunicationChannel.setTimeout(3000);
-			/*
-			unsigned char trigger[4] = {0x01, 0x00, 0x00, 0x00};
-			myCommunicationChannel.send(trigger, 4);
-						
-			unsigned char navDataDemo[10240];
-			unsigned int navDataLength = 10240;*/
+			unsigned int configDataBufferLength = ARDRONE_CONFIGURATION_BUFFER_SIZE;
+			unsigned char configDataBuffer[configDataBufferLength];
+			
+			for(int i = 0; i< 5; i++)
+			{
+				myController->sendACKCommand();
+				myController->requestConfigData();
+				myController->sendResetAcknowledgeBit();
+			}
 			while(false == testCancel())
 			{
 				try 
 				{
 					myController->requestConfigData();
-					//myCommunicationChannel.receive(navDataDemo, navDataLength);
-					cnt++;
-					if(cnt >= 5)
+					myCommunicationChannel.receive(configDataBuffer, configDataBufferLength);
+					printf("%s", configDataBuffer);
+					synchronized(myMutex)
 					{
-						cnt = 0;
-						synchronized(myMutex)
-						{
-							//MemoryLibrary::Buffer navDataBuffer(navDataDemo, navDataLength);
-							//parse(navDataBuffer);
-						}
+						//MemoryLibrary::Buffer navDataBuffer(navDataDemo, navDataLength);
+						//parse(navDataBuffer);
 					}
 				}
 				catch (ccxx::TimeoutException& timeoutEx) 

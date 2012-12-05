@@ -22,6 +22,7 @@ bool Drone::start()
 		myController = new ARDrone::Controller;
 		myVideoDataReceiver = new ARDrone::VideoDataReceiver(myController,  DRONE_IP.c_str()); 
 		myNavigationDataReceiver = new ARDrone::NavigationDataReceiver(myController,  DRONE_IP.c_str());
+		myConfigDataReceiver = new ARDrone::ConfigDataReceiver(myController, DRONE_IP.c_str());
 		
 		
 		myController->connectWithDroneAtAddress(DRONE_IP.c_str());
@@ -32,6 +33,9 @@ bool Drone::start()
 		
 		myVideoDataReceiver->start();
 		ccxx::Thread::sleep(200);
+		
+		//myConfigDataReceiver->start();
+		ccxx::Thread::sleep(200);
 		return true;
     }
     catch(ccxx::Exception& ex) 
@@ -39,6 +43,7 @@ bool Drone::start()
 		std::cout << ex.what() << std::endl;
 		delete myVideoDataReceiver;
 		delete myNavigationDataReceiver;
+		delete myConfigDataReceiver;
 		delete myController;
 		return false;
     }
@@ -50,6 +55,7 @@ void Drone::stop()
     {
 		myNavigationDataReceiver->stop();
 		myVideoDataReceiver->stop();
+		myConfigDataReceiver->stop();
     }
     catch(ccxx::Exception& ex) 
     {
@@ -58,6 +64,7 @@ void Drone::stop()
     
     delete myVideoDataReceiver;
     delete myNavigationDataReceiver;
+	delete myConfigDataReceiver;	
     delete myController;
 }
 	ARDrone::Controller& ARDrone::Drone::controller()
@@ -73,6 +80,11 @@ void Drone::stop()
 	ARDrone::NavigationDataReceiver& Drone::navigationDataReceiver()
 	{
 		return *myNavigationDataReceiver;
+	}
+	
+	ARDrone::ConfigDataReceiver& Drone::configDataReceiver()
+	{
+		return *myConfigDataReceiver;
 	}
 	
 }//ARDrone

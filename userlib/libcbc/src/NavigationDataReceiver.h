@@ -43,6 +43,17 @@ namespace ARDrone
 	 **/
     ARDrone::Controller* myController;
 	
+	/**
+	 @brief Retrieves the Acknowledgement Bit from the NavData Stream
+	 **/
+	bool getAcknowledgementFlag();
+	
+	/**
+	 @brief Checks the navdata and returns the value
+	 @return bool Value indicating if the drone is in demo mode or not
+	 **/
+	bool getDemoModeFlag();
+	
   public:
 	/**
 	 @brief A Timestamp to ensure that the NavData is updated in a timely manner

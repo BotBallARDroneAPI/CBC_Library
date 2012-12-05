@@ -114,17 +114,20 @@ namespace ARDrone
 		bool communicationProblemOccurred;
 		bool emergency;
 	};
+	std::string NavDataStateToString();
   class NavigationData
   {
-  public: 
+  public:
+	  /**
+	   **/
 	  const char* controlStateToString(eControlState cs);
 	  const char* controlStateAsString();
 	  const char* visionTagAsString();
+	  int FlagsToString(char* buffer);
 	  Orientation GetOrientation();
-	  //TODO Make private for encapsulation
 	  int sequence;
 	  State_Flags flags;
-	  
+	  int visionFlag;
 	  unsigned int batteryLevel;
 	  float altitude;
 	  Orientation orientation;

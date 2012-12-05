@@ -34,9 +34,12 @@ namespace ARDrone
 		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), SHELL_INSIDE_MODE_ARG.c_str()); // inform control loop that indoor shell is in use
 
 		setControlLevel(BEGINNER);
-		requestNavigationData(DEMO);
+		
+		///This should be handled in the respective Receivers
+		/*requestNavigationData(DEMO);
 		requestVideoData();
-
+		requestConfigData();*/
+		setBitrateControlMode(VBC_MODE_MANUAL);
 		setBitrate(DEFAULT_VIDEO_BITRATE); //scale the video bit_rate down from default
 		disableAdaptiveVideo();
 		setUltrasoundFrequency(CHANNEL_22_5MHZ);
@@ -63,10 +66,10 @@ namespace ARDrone
 			case (NORMAL):
 				myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), FLYING_MODE_NORMAL_ARG.c_str());
 				break;
+			//The following is deprecated in favor of oriented_roundel
 			case (HOVER_ON_ROUNDEL): //ARDrone doc has this enum = 1 << 0....
 				myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), FLYING_MODE_HOVER_ON_ROUNDEL_ARG.c_str());
 				break;
-			//TODO If these both work remove the one above
 			case (HOVER_ON_ORIENTED_ROUNDEL): //ARDrone doc has this enum = 1 << 1....
 				myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), FLYING_MODE_HOVER_ON_ORIENTED_ROUNDEL_ARG.c_str());
 				break;
@@ -82,6 +85,11 @@ namespace ARDrone
 		{
 			myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), ALL_NAV_DATA_ARG.c_str(), 20);
 		}
+	}
+	void Controller::sendACKCommand()
+	{
+		unsigned char ack[15] = "AT*CTRL=0\r";
+		myCommunicationChannel.send(ack, 10);
 	}
 	void Controller::requestConfigData()
 	{
@@ -159,6 +167,12 @@ namespace ARDrone
 			myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), ULTRASOUND_CHANNEL_A_ARG.c_str());
 		else
 			myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), ULTRASOUND_CHANNEL_B_ARG.c_str());
+	}
+	void Controller::setBitrateControlMode(int mode)
+	{
+		std::stringstream strStm;
+		strStm << VIDEO_BITRATE_CONTROL_MODE << mode << "\"";
+		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), strStm.str().c_str());
 	}
 	void Controller::setBitrate(int bitrate)
 	{
@@ -239,5 +253,9 @@ namespace ARDrone
 	void Controller::disableDroneTagging()
 	{
 		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), DETECT_TYPE_NONE_ARG.c_str()); //3 equates to CAD_TYPE_NONE from ardrone_api.h
-	}			
+	}
+	void Controller::sendResetAcknowledgeBit()
+	{
+		myCommunicationChannel.sendAT(ATCTRL_COMMAND.c_str(), RESET_ACKNOWLEDGE_BIT_ARG.c_str());
+	}
 }//namespace ARDrone

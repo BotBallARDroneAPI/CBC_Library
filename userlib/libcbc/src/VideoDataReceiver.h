@@ -19,12 +19,16 @@ namespace ARDrone
 		ARDrone::Controller* myController;
 		unsigned char myVideoData[VIDEO_DATA_SIZE]; //640x480x3 MAX out
 		unsigned int videoDataLength;
+<<<<<<< HEAD
 		//Mod by Jeremy Rand
 		VideoDecoder::Image videoBuffer[VIDEO_BUF_SIZE];
 		long videoTimestamp[VIDEO_BUF_SIZE]; 
+=======
+		VideoDecoder::Image videoBuffer[2];
+		long videoTimestamp[2]; 
+>>>>>>> Updating the repository with my changes.  There is an enormous amount of changes based on final testing and ARDrone 2 tests.
 		int safeBufferIndex;
 		bool enableCbcuiVision;
-		//End Mod
 		
 	public:
 

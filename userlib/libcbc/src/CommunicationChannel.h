@@ -60,6 +60,7 @@ namespace ARDrone
 	@brief Receives a buffer on this communication channel
 	@param bytes A buffer of information that was received on this Channel
 	@param bufferLength the length of the buffer we received in bytes
+ 	@throws ccxx::TimeoutException
 	**/
     void receive(unsigned char* bytes, unsigned int& bufferLength);
 	  

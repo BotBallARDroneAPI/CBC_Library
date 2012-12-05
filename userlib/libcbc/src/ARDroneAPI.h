@@ -198,12 +198,12 @@ extern "C" {
 						ARDRONE_ANIM_WAVE = 13,
 						ARDRONE_ANIM_PHI_THETA_MIXED = 14,
 						ARDRONE_ANIM_DOUBLE_PHI_THETA_MIXED = 15
-	 @param tInterval specifies the duration of the animation in milliseconds
+	 @param tInterval specifies the duration of the animation in seconds
 	 @pre drone_connect must have been previously called to establish a connection to the drone.
 	 **/
 	void drone_animation(int animationType, int tInterval);
 
-		/**
+	/**
 	 @brief Commands the drone to perform LED animations
 	 @param animationType specifies the animation to be performed
 						ARDRONE_LED_ANIMATION_BLINK_GREEN_RED = 0
@@ -228,7 +228,7 @@ extern "C" {
 						ARDRONE_LED_ANIMATION_LEFT_RED_RIGHT_GREEN = 19
 						ARDRONE_LED_ANIMATION_BLINK_STANDARD = 20
 	 @param frequency specifies the frequency (Hz) for the animations to play at.
-	 @param tInterval specifies the duration of the animation in milliseconds
+	 @param tInterval specifies the duration of the animation in seconds
 	 @pre drone_connect must have been previously called to establish a connection to the drone.
 	 **/
 	void drone_LED_animation(int LED_animation, float frequency, int tInterval);

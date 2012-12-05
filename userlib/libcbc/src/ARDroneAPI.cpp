@@ -21,6 +21,8 @@ enum movement_types{
 	ANIMATION = 1
 };
 
+const int MINIMUM_BATTERY_LEVEL = 10;
+
 Drone * myDrone;
 bool drone_connected = false;
 
@@ -65,10 +67,15 @@ void set_drone_Mac_Address(char * macAddress)
 
 void monitor_sensors()
 {
+	int battery;
 	while(true)
 	{
-		drone_get_battery();
-		update_position_tracking();
+		battery = drone_get_battery();
+		if (battery > 0 && battery < MINIMUM_BATTERY_LEVEL)
+		{
+			printf("Battery Level is low. %i\n", battery);
+		}
+			update_position_tracking();
 		msleep(15);
 	}
 }
@@ -322,7 +329,7 @@ void move_control_thread()
 			}
 			case ANIMATION:
 			{
-				myDrone->controller().sendAnimationControl((AnimationCmd)anim_request, t);
+				myDrone->controller().sendAnimationControl((AnimationCmd)anim_request, t*1000);
 				myDrone->controller().sendWatchDog();//ensures the drone doesn't lose connection
 				msleep(5);
 				//move_type = MOVEMENT;
@@ -336,21 +343,13 @@ void move_control_thread()
 		}	
 
 	}
-	
-
-	/*while(true)
-	{
-		myDrone->controller().sendControlParameters(requested_enable_move, requested_x_tilt, requested_y_tilt, requested_yaw_vel, requested_z_vel);
-		myDrone->controller().sendWatchDog();//ensures the drone doesn't lose connection
-		msleep(5);
-	}*/
 }
 
 void drone_move(float x_tilt, float y_tilt, float z_vel, float yaw_vel)
 {
 	requested_enable_move = true;
 	requested_x_tilt = x_tilt;
-	requested_y_tilt = y_tilt;
+	requested_y_tilt = -y_tilt;
 	requested_yaw_vel = yaw_vel;
 	requested_z_vel = z_vel;
 }
@@ -421,24 +420,16 @@ void drone_animation(int animationType, int tInterval)
 	locker = UNLOCKED;
 
 	drone_move(0,0,0,0);
-	msleep(tInterval);
+	sleep(tInterval);
 
 	while(locker==LOCKED) {}
 	locker = LOCKED;
 	move_type = MOVEMENT;
 	locker = UNLOCKED;
-
-	
-	
-/*
-	drone_move(0,0,0,0);
-	myDrone->controller().sendAnimationControl((AnimationCmd)animationType, anim_time);
-	msleep(tInterval);
-*/
 }
 
 
 void drone_LED_animation(int LED_animation, float frequency, int tInterval)
 {
-	myDrone->controller().sendLEDAnimationControl(LED_animation, *(int*)(&frequency), tInterval * 1000);
+	myDrone->controller().sendLEDAnimationControl(LED_AnimationCmd(LED_animation), *(int*)(&frequency), tInterval * 1000);
 }

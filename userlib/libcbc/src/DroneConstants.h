@@ -42,7 +42,11 @@ const std::string MAX_EULER_ANGLE = "\"control:euler_angle_max\",\"";
 const float DEFAULT_MAX_YAW_SPEED = 6.00; //maximum yaw speed = 6rad/s ~= 343deg/s
 const std::string MAX_YAW_SPEED = ",\"control:control_yaw\",\"";
 
-const int DEFAULT_VIDEO_BITRATE = 10000;
+const int DEFAULT_VIDEO_BITRATE = 500;
+const int VBC_MODE_DISABLED = 0;
+const int VBC_MODE_DYNAMIC	= 1;
+const int VBC_MODE_MANUAL = 2;
+const std::string VIDEO_BITRATE_CONTROL_MODE = "\"video:_control_mode\",\"";
 const std::string VIDEO_BITRATE = "\"video:bitrate\",\"";
 
 const std::string MAC_ADDRESS = ",\"network:owner_mac\",\"";
@@ -56,6 +60,7 @@ const std::string MINIMAL_NAV_DATA_ARG = ",\"general:navdata_demo\",\"TRUE\"";
 const std::string ALL_NAV_DATA_ARG = ",\"general:navdata_demo\",\"FALSE\"";
 
 const std::string REQUEST_CONFIG_DATA = ",4,0";
+const std::string RESET_ACKNOWLEDGE_BIT_ARG = ",5,0";
 
 const std::string REQUEST_VISION_TAG_DATA_ARG = ",\"general:navdata_options\",\"65537\"";
 
