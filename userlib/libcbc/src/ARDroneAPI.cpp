@@ -186,6 +186,7 @@ void drone_connect()
 	move_type = MOVEMENT;
 	if(!drone_connected)
 	{
+        printf("Please ensure your drone firmware version is 1.7.11";
 		myDrone = new Drone();
 		myDrone->start();
 
