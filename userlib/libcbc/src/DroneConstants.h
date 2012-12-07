@@ -10,12 +10,6 @@ const int VIDEO_DATA_PORT = 5555;
 const int ATCOMMAND_PORT = 5556;
 const int CONFIG_DATA_PORT = 5559;
 
-//I DONT THINK THESE ARE BEING USED
-const int NAVDATA_STATE_DATA_OFFSET =  4;
-const int NAVDATA_BATTERY_OFFSET  = 24;
-const int NAVDATA_ALTITUDE_OFFSET = 40;
-//END
-
 const unsigned int INTERVAL = 100;
 
 //Controller Constants
@@ -43,9 +37,6 @@ const float DEFAULT_MAX_YAW_SPEED = 6.00; //maximum yaw speed = 6rad/s ~= 343deg
 const std::string MAX_YAW_SPEED = ",\"control:control_yaw\",\"";
 
 const int DEFAULT_VIDEO_BITRATE = 500;
-const int VBC_MODE_DISABLED = 0;
-const int VBC_MODE_DYNAMIC	= 1;
-const int VBC_MODE_MANUAL = 2;
 const std::string VIDEO_BITRATE_CONTROL_MODE = "\"video:_control_mode\",\"";
 const std::string VIDEO_BITRATE = "\"video:bitrate\",\"";
 
@@ -129,5 +120,110 @@ const int FIX_3_072711026 = 25172;
 
 const int CONST_BITS = 13;
 const int PASS1_BITS = 1;
+
+const std::string NUM_VERSION_CONFIG_TYPE = "general:num_version_config";
+const std::string NUM_VERSION_MB_TYPE = "general:num_version_mb";
+const std::string NUM_VERSION_SOFT_TYPE = "general:num_version_soft";
+const std::string DRONE_SERIAL_TYPE = "general:drone_serial";
+const std::string SOFT_BUILD_DATE_TYPE = "general:soft_build_date";
+const std::string MOTOR1_SOFT_TYPE = "general:motor1_soft";
+const std::string MOTOR1_HARD_TYPE = "general:motor1_hard";
+const std::string MOTOR1_SUPPLIER_TYPE = "general:motor1_supplier";
+const std::string MOTOR2_SOFT_TYPE = "general:motor2_soft";
+const std::string MOTOR2_HARD_TYPE = "general:motor2_hard";
+const std::string MOTOR2_SUPPLIER_TYPE = "general:motor2_supplier";
+const std::string MOTOR3_SOFT_TYPE = "general:motor3_soft";
+const std::string MOTOR3_HARD_TYPE = "general:motor3_hard";
+const std::string MOTOR3_SUPPLIER_TYPE = "general:motor3_supplier";
+const std::string MOTOR4_SOFT_TYPE = "general:motor4_soft";
+const std::string MOTOR4_HARD_TYPE = "general:motor4_hard";
+const std::string MOTOR4_SUPPLIER_TYPE = "general:motor4_supplier";
+const std::string ARDRONE_NAME_TYPE = "general:ardrone_name";
+const std::string FLYING_TIME_TYPE = "general:flying_time";
+const std::string NAVDATA_DEMO_TYPE = "general:navdata_demo";
+const std::string COM_WATCHDOG_TYPE = "general:com_watchdog";
+const std::string VIDEO_ENABLE_TYPE = "general:video_enable";
+const std::string VISION_ENABLE_TYPE = "general:vision_enable";
+const std::string VBAT_MIN_TYPE = "general:vbat_min";
+const std::string ACCS_OFFSET_TYPE = "control:accs_offset";
+const std::string ACCS_GAINS_TYPE = "control:accs_gains";
+const std::string GYROS_OFFSET_TYPE = "control:gyros_offset";
+const std::string GYROS_GAINS_TYPE = "control:gyros_gains";
+const std::string GYROS110_OFFSET_TYPE = "control:gyros110_offset";
+const std::string GYROS110_GAINS_TYPE = "control:gyros110_gains";
+const std::string MAGNETO_OFFSET_TYPE = "control:magneto_offset";
+const std::string MAGNETO_RADIUS_TYPE = "control:magneto_radius";
+const std::string GYRO_OFFSET_THR_X_TYPE = "control:gyro_offset_thr_x";
+const std::string GYRO_OFFSET_THR_Y_TYPE = "control:gyro_offset_thr_y";
+const std::string GYRO_OFFSET_THR_Z_TYPE = "control:gyro_offset_thr_z";
+const std::string PWM_REF_GYROS_TYPE = "control:pwm_ref_gyros";
+const std::string OSCTUN_VALUE_TYPE = "control:osctun_value";
+const std::string OSCTUN_TEST_TYPE = "control:osctun_test";
+const std::string ALTITUDE_MAX_TYPE = "control:altitude_max";
+const std::string ALTITUDE_MIN_TYPE = "control:altitude_min";
+const std::string OUTDOOR_TYPE = "control:outdoor";
+const std::string FLIGHT_WITHOUT_SHELL_TYPE = "control:flight_without_shell";
+const std::string CONTROL_LEVEL_TYPE = "control:control_level";
+const std::string AUTONOMOUS_FLIGHT_TYPE = "control:autonomous_flight";
+const std::string FLIGHT_ANIM_TYPE = "control:flight_anim";
+const std::string EULER_ANGLE_MAX_TYPE = "control:euler_angle_max";
+const std::string CONTROL_IPHONE_TILT_TYPE = "control:control_iphone_tilt";
+const std::string CONTROL_VZ_MAX_TYPE = "control:control_vz_max";
+const std::string CONTROL_YAW_TYPE = "control:control_yaw";
+const std::string MANUAL_TRIM_TYPE = "control:manual_trim";
+const std::string INDOOR_EULER_ANGLE_TYPE = "control:indoor_euler_angle_max";
+const std::string INDOOR_CONTROL_VZ_MAX_TYPE = "control:indoor_control_vz_max";
+const std::string INDOOR_CONTROL_YAW_TYPE = "control:indoor_control_yaw";
+const std::string OUTDOOR_EULER_ANGLE_MAX_TYPE = "control:outdoor_euler_angle_max";
+const std::string OUTDOOR_CONTROL_VZ_MAX_TYPE = "control:outdoor_control_vz_max";
+const std::string OUTDOOR_CONTROL_YAW_TYPE = "control:outdoor_control_yaw";
+const std::string FLYING_MODE_TYPE = "control:flying_mode";
+const std::string HOVERING_RANGE_TYPE = "control:hovering_range";
+const std::string SSID_SINGLE_PLAYER_TYPE = "network:ssid_single_player";
+const std::string SSID_MULTIPLAYER_TYPE = "network:ssid_multi_player";
+const std::string WIFI_MODE_TYPE = "network:wifi_mode";
+const std::string WIFI_RATE_TYPE = "network:wifi_rate";
+const std::string OWNER_MAC_TYPE = "network:owner_mac";
+const std::string ULTRASOUND_FREQ_TYPE = "pic:ultrasound_freq";
+const std::string ULTRASOUND_WATCHDOG_TYPE = "pic:ultrasound_watchdog";
+const std::string PIC_VERSION_TYPE = "pic:pic_version";
+const std::string OUTPUT_TYPE = "syslog:output";
+const std::string MAX_SIZE_TYPE = "syslog:max_size";
+const std::string NB_FILES_TYPE = "syslog:nb_files";
+const std::string LOCALTIME_TYPE = "general:localtime";
+const std::string NAVDATA_OPTIONS_TYPE = "general:navdata_options";
+const std::string CAMIF_FPS_TYPE = "video:camif_fps";
+const std::string CAMIF_BUFFERS_TYPE = "video:camif_buffers";
+const std::string NUM_TRACKERS_TYPE = "video:num_trackers";
+const std::string CODEC_FPS_TYPE = "video:codec_fps";
+const std::string VIDEO_CODEC_TYPE = "video:video_codec";
+const std::string VIDEO_SLICES_TYPE = "video:video_slices";
+const std::string VIDEO_LIVE_SOCKET_TYPE = "video:video_live_socket";
+const std::string VIDEO_STORAGE_SPACE_TYPE = "video:video_storage_space";
+const std::string BITRATE_TYPE = "video:bitrate";
+const std::string MAX_BITRATE_TYPE = "video:max_bitrate";
+const std::string BITRATE_CTRL_MODE_TYPE = "video:bitrate_ctrl_mode";
+const std::string BITRATE_STORAGE_TYPE = "video:bitrate_storage";
+const std::string VIDEO_CHANNEL_TYPE = "video:video_channel";
+const std::string VIDEO_ON_USB_TYPE = "video:video_on_usb";
+const std::string VIDEO_FILE_INDEX_TYPE = "video:video_file_index";
+const std::string LEDS_ANIM_TYPE = "leds:leds_anim";
+const std::string ENEMY_COLORS_TYPE = "detect:enemy_colors";
+const std::string GROUNDSTRIPE_COLORS_TYPE = "detect:groundstripe_colors";
+const std::string ENEMY_WITHOUT_SHELL_TYPE = "detect:enemy_without_shell";
+const std::string DETECT_TYPE_TYPE = "detect:detect_type";
+const std::string DETECTIONS_SELECT_TYPE = "detect:detections_select_h";
+const std::string DETECTIONS_SELECT_V_HSYNC_TYPE = "detect:detections_select_v_hsync";
+const std::string DETECTIONS_SELECT_V_TYPE = "detect:detections_select_v";
+const std::string USERBOX_CMD_TYPE = "userbox:userbox_cmd";
+const std::string LATITUDE_TYPE = "gps:latitude";
+const std::string LONGITUDE_TYPE = "gps:longitude";
+const std::string ALTITUDE_TYPE = "gps:altitude";
+const std::string APPLICATION_ID_TYPE = "custom:application_id";
+const std::string APPLICATION_DESC_TYPE = "custom:application_desc";
+const std::string PROFILE_ID_TYPE = "custom:profile_id";
+const std::string PROFILE_DESC_TYPE = "custom:profile_desc";
+const std::string SESSION_ID_TYPE = "custom:session_id";
+const std::string SESSION_DESC_TYPE = "custom:session_desc";
 
 #endif

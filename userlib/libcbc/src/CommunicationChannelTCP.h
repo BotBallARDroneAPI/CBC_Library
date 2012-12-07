@@ -54,7 +54,7 @@ namespace ARDrone
 	@param bufferLength the length of the buffer we received in bytes
 	@throws ccxx::TimeoutException
 	**/
-    void receive(unsigned char* bytes, unsigned int& bufferLength); 
+    int receive(unsigned char* bytes, unsigned int bufferLength); 
   };
 }//namespace ARDrone
 #endif

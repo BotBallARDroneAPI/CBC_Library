@@ -2,6 +2,7 @@
 #include "VideoDecoder.h"
 #include "DroneConstants.h"
 
+
 namespace ARDrone
 {
 	namespace VideoDecoder

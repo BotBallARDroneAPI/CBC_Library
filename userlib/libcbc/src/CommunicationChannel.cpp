@@ -1,4 +1,5 @@
 /// CommunicationChannel.cpp
+
 #include "CommunicationChannel.h"
 #include <commonc++/Thread.h++>
 #include <commonc++/ScopedLock.h++>
@@ -7,20 +8,18 @@ namespace ARDrone
 {
 	/**
 	 @brief A Variable representing the next sequence number for an AT Command
-	 TODO: Move this somewhere so it is more encapsulated
 	 **/
 	unsigned int myNextATSequence;
 	/**
 	 @brief A Variable representing the last sequence number for an AT Command
-	TODO: Move this somewhere so it is more encapsulated
 	 **/
 	unsigned int myLastATSequence;
 	/**
 	 @brief An object representeing the last ATCommand that was sent so it may be sent continuously.
-	TODO: Move this somewhere so it is more encapsulated
 	 **/
 	ATCommand myLastATCommand;
-	CommunicationChannel::CommunicationChannel()
+	
+	CommunicationChannel::CommunicationChannel(int localPort):myDatagram(localPort)
 	{
 		myNextATSequence = 1;
 		myLastATSequence = 1;
@@ -43,14 +42,6 @@ namespace ARDrone
 	{
 		if(isConnectedWithDrone())
 		{
-			/*
-			Jeremy Mod
-			char buffer[255];
-			sprintf(buffer, ",\"network:owner_mac\",\"%s\"", pairMAC);
-			
-			sendAT("AT*CONFIG=", buffer);
-			 */
-			//sendAT("AT*CONFIG=", ",\"network:owner_mac\",\"00:00:00:00:00:00\"");
 			myDatagram.shutdown();
 		}
 	}
@@ -69,7 +60,7 @@ namespace ARDrone
 	{
 		synchronized(myMutex)
 		{
-			myDatagram.send(bytes, length);
+			myDatagram.send(bytes, length, myDatagram.getLocalAddress());
 		}
 	}
 	

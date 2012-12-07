@@ -1,6 +1,6 @@
 ///Controller.cpp
+
 #include "Controller.h"
-#include "Drone.h"
 #include "DroneConstants.h"
 
 namespace ARDrone
@@ -12,7 +12,7 @@ namespace ARDrone
 		return result;
 	}
 	
-	Controller::Controller()
+	Controller::Controller():myCommunicationChannel(ATCOMMAND_PORT)
 	{
 	}
 	
@@ -35,16 +35,12 @@ namespace ARDrone
 
 		setControlLevel(BEGINNER);
 		
-		///This should be handled in the respective Receivers
-		/*requestNavigationData(DEMO);
-		requestVideoData();
-		requestConfigData();*/
-		setBitrateControlMode(VBC_MODE_MANUAL);
-		setBitrate(DEFAULT_VIDEO_BITRATE); //scale the video bit_rate down from default
+		//This functionality is correct but does not work on the drone in the Syslog.bin you can see the commands are not allowed.
+		//setBitrateControlMode(VBC_MODE_MANUAL);
+		//setBitrate(DEFAULT_VIDEO_BITRATE); //scale the video bit_rate down from default
 		disableAdaptiveVideo();
 		setUltrasoundFrequency(CHANNEL_22_5MHZ);
 		sendFlatTrim();
-		//printf("Completed Drone Connection\n");
 	}
 	void Controller::takeOff()
 	{
@@ -59,7 +55,7 @@ namespace ARDrone
 	{
 		sendControlParameters(0, 0, 0, 0, 0);
 	}
-	void Controller::setFlyingMode(FlyMode mode)
+	void Controller::setFlyingMode(FlyingMode mode)
 	{
 		switch(mode)
 		{
@@ -86,11 +82,6 @@ namespace ARDrone
 			myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), ALL_NAV_DATA_ARG.c_str(), 20);
 		}
 	}
-	void Controller::sendACKCommand()
-	{
-		unsigned char ack[15] = "AT*CTRL=0\r";
-		myCommunicationChannel.send(ack, 10);
-	}
 	void Controller::requestConfigData()
 	{
 		myCommunicationChannel.sendAT(ATCTRL_COMMAND.c_str(), REQUEST_CONFIG_DATA.c_str());
@@ -105,11 +96,11 @@ namespace ARDrone
 	}
 	void Controller::disableAdaptiveVideo()
 	{		
-		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), VIDEO_CONTROL_MODE_DISABLE_ARG.c_str());		 
+		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), VIDEO_CONTROL_MODE_DISABLE_ARG.c_str());
 	}
 	void Controller::switchToFrontCamera()
 	{
-		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), FRONT_CAMERA.c_str());	
+		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(), FRONT_CAMERA.c_str());
 	}
 	void Controller::switchToDownCamera()
 	{
@@ -130,13 +121,13 @@ namespace ARDrone
 	{
 		std::stringstream strStm;
 		strStm << ANIMATION_CONTROL_ARG.c_str() << (int)myAnim << "," << msTime << "\""; 
-		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(),  strStm.str().c_str());		
+		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(),  strStm.str().c_str());
 	}
 	void Controller::sendLEDAnimationControl(LED_AnimationCmd LED_animation, int frequency, int tInterval)
 	{
 		std::stringstream strStm;
 		strStm << LED_ANIMATION_CONTROL_ARG.c_str() << int(LED_animation) << "," << frequency << "," << tInterval << "\"";
-		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(),  strStm.str().c_str());	
+		myCommunicationChannel.sendAT(ATCONFIG_COMMAND.c_str(),  strStm.str().c_str());
 	}
 	void Controller::sendWatchDog()
 	{

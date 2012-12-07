@@ -1,4 +1,5 @@
 /// CommunicationChannelTCP.cpp
+
 #include "CommunicationChannelTCP.h"
 #include <commonc++/Thread.h++>
 #include <commonc++/ScopedLock.h++>
@@ -40,9 +41,10 @@ namespace ARDrone
 		myStream.setTimeout(t);
 	}
 	
-	void CommunicationChannelTCP::receive(unsigned char* bytes, unsigned int& bufferLength)
+	int CommunicationChannelTCP::receive(unsigned char* bytes, unsigned int bufferLength)
 	{  
 		int actualReceivedLength = myStream.read(bytes, bufferLength);
-		bufferLength = actualReceivedLength;
+		//bufferLength = actualReceivedLength;
+		return actualReceivedLength;
 	}
 }//namespace ARDrone

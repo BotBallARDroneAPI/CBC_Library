@@ -38,10 +38,4 @@ namespace ARDrone
 				flags.navDataThreadOn, flags.videoThreadOn, flags.acquisitionThreadOn, flags.controlWatchdogDelayed, flags.ADCWatchdogDelayed, flags.communicationProblemOccurred, flags.emergency);
 		return n;
 	}
-	//TO DO
-	//Implement this function
-	const char* NavigationData::visionTagAsString()
-	{
-		return NULL;
-	}
 }//namespace ARDrone

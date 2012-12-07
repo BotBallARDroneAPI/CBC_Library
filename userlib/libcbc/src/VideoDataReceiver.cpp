@@ -1,6 +1,7 @@
 /// VideoDataReceiver.cpp
 #include "VideoDataReceiver.h"
 #include "DroneConstants.h"
+
 #include <commonc++/ScopedLock.h++>
 #include "compat.h"
 #include <fcntl.h>
@@ -10,7 +11,7 @@
 
 namespace ARDrone
 {
-	VideoDataReceiver::VideoDataReceiver(ARDrone::Controller* pController, const char* szDroneIpAddress)
+	VideoDataReceiver::VideoDataReceiver(ARDrone::Controller* pController, const char* szDroneIpAddress):myCommunicationChannel(VIDEO_DATA_PORT)
 	{
 		myDroneAddress = szDroneIpAddress;
 		myController = pController;
@@ -94,14 +95,6 @@ namespace ARDrone
 		}
 		
 		std::cout << "VideoDataReceiver stopped\n";
-	}
-	
-	void VideoDataReceiver::copyDataTo(ARDrone::VideoDecoder::Image& resultImage)
-	{
-		synchronized(myMutex)
-		{
-			ARDrone::VideoDecoder::decodeImage(myVideoData, videoDataLength, resultImage);
-		}
 	}
 	
 	void VideoDataReceiver::write_external_camera_data()

@@ -1,4 +1,5 @@
 /// Drone.cpp
+
 #include "Drone.h"
 #include "DroneConstants.h"
 
@@ -24,7 +25,6 @@ bool Drone::start()
 		myNavigationDataReceiver = new ARDrone::NavigationDataReceiver(myController,  DRONE_IP.c_str());
 		myConfigDataReceiver = new ARDrone::ConfigDataReceiver(myController, DRONE_IP.c_str());
 		
-		
 		myController->connectWithDroneAtAddress(DRONE_IP.c_str());
 		ccxx::Thread::sleep(200);
 		
@@ -35,7 +35,7 @@ bool Drone::start()
 		ccxx::Thread::sleep(200);
 		
 		//myConfigDataReceiver->start();
-		ccxx::Thread::sleep(200);
+		//ccxx::Thread::sleep(200);
 		return true;
     }
     catch(ccxx::Exception& ex) 
@@ -55,7 +55,7 @@ void Drone::stop()
     {
 		myNavigationDataReceiver->stop();
 		myVideoDataReceiver->stop();
-		myConfigDataReceiver->stop();
+		//myConfigDataReceiver->stop();
     }
     catch(ccxx::Exception& ex) 
     {

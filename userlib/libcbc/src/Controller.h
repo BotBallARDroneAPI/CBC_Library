@@ -3,13 +3,13 @@
 #define CONTROLLER_H
 
 #include "CommunicationChannel.h"
+
 #include "NavigationData.h"
+
 #include "DroneConstants.h"
 
 namespace ARDrone
 {  
-	//TODO these should probably be better integrated into stuff.. I dont think they apply to a controller..
-	
 	/** 
 	 @brief An Enum to provide a textual parameter to feed into the setUltrasoundFrequency Command
 	 **/
@@ -46,7 +46,7 @@ namespace ARDrone
 	/** 
 	 @brief An Enum to provide a textual parameter to feed into the flyMode Command
 	 **/
-	enum FlyMode
+	enum FlyingMode
 	{
 		NORMAL = 0,
 		HOVER_ON_ROUNDEL = 1,
@@ -113,6 +113,16 @@ namespace ARDrone
 		ARDRONE_LED_ANIMATION_BLINK_STANDARD = 20
 	};
 	
+	/**
+	 @brief An Enum to provide a text parameter for changing the Bitrate Control Mode
+	 **/
+	enum Vision_Bitrate_Control_Mode
+	{
+		VBC_MODE_DISABLED = 0,
+		VBC_MODE_DYNAMIC	= 1,
+		VBC_MODE_MANUAL = 2,
+	};
+	
 	class Controller
 		{
 			ARDrone::CommunicationChannel myCommunicationChannel;
@@ -156,7 +166,7 @@ namespace ARDrone
 			@pre Oriented Roundel detection must be activated 
 			@pre A Roundel must already be detected in the navigation data
 			**/
-			void setFlyingMode(FlyMode mode);
+			void setFlyingMode(FlyingMode mode);
 			
 			/**
 			@brief Tells the drone to send navigation data on port 5554.  NavData contains drone information like 
@@ -335,8 +345,6 @@ namespace ARDrone
 			 @brief Sends a command to the drone to reset the Acknowledgement bit
 			 **/
 			void sendResetAcknowledgeBit();
-			
-			void sendACKCommand();
 		};
 }//namespace ARDrone
 #endif

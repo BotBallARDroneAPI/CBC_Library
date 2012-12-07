@@ -2,10 +2,10 @@
 #ifndef DRONE_H
 #define DRONE_H
 
-#include "Controller.h"
 #include "VideoDataReceiver.h"
 #include "NavigationDataReceiver.h"
 #include "ConfigDataReceiver.h"
+#include "Controller.h"
 
 namespace ARDrone
 {
@@ -29,6 +29,7 @@ namespace ARDrone
 		 @brief A pointer to thes drones config data receiver (Receives data from the Drone)
 		 **/
 		ARDrone::ConfigDataReceiver* myConfigDataReceiver;
+		
 	public:
 		/**
 		 @brief Default Constructor for the Drone

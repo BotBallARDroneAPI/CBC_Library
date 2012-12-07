@@ -4,7 +4,6 @@
 
 #include "commonc++/DatagramSocket.h++"
 #include "commonc++/Mutex.h++"
-
 #include "ATCommand.h"
 
 namespace ARDrone
@@ -19,7 +18,7 @@ namespace ARDrone
 	/**
 	 @brief Constructor for a Communication Channel that sets the internal values to zero
 	 **/
-    CommunicationChannel();
+    CommunicationChannel(int localPort);
 	  
 	/**
 	@brief Communication Channel Destructor that is responsible for ensuring we disconnect from the drone

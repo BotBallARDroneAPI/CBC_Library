@@ -6,7 +6,7 @@
 
 namespace ARDrone
 {
-	NavigationDataReceiver::NavigationDataReceiver(Controller* pController, const char* szDroneIpAddress)
+	NavigationDataReceiver::NavigationDataReceiver(Controller* pController, const char* szDroneIpAddress):myCommunicationChannel(NAVIGATION_DATA_PORT)
 	{
 		myDroneAddress = szDroneIpAddress;
 		myController = pController;
@@ -41,6 +41,7 @@ namespace ARDrone
 	void NavigationDataReceiver::run()
 	{
 		std::cout << "NavigationDataReceiver started\n";
+		int cnt = 0;
 		try 
 		{
 			myCommunicationChannel.connectWithDroneAtAddress(myDroneAddress.c_str(), NAVIGATION_DATA_PORT);
@@ -49,34 +50,28 @@ namespace ARDrone
 			unsigned char trigger[4] = {0x01, 0x00, 0x00, 0x00};
 			myCommunicationChannel.send(trigger, 4);
 						
-			unsigned char navDataDemo[10240];
-			//char buffer[600];
-			unsigned int navDataLength = 10240;
-			myCommunicationChannel.receive(navDataDemo, navDataLength);
-			MemoryLibrary::Buffer navDataBuffer(navDataDemo, navDataLength);
-			parse(navDataBuffer);
-			while(getDemoModeFlag() == false)
-			{
-				std::cout<< "Changing Drone to Demo Mode (Removing Parrot debug data)";
-				myController->requestNavigationData(DEMO);
-				if(getAcknowledgementFlag() == true)
-				{
-					std::cout << "Resetting Acknowlege Bit";
-					myController->sendResetAcknowledgeBit();
-				}
-			}
+			unsigned char navDataDemo[NAVDATA_DEMO_BUFFER_SIZE];
+			unsigned int navDataLength = NAVDATA_DEMO_BUFFER_SIZE;
+
 			while(false == testCancel())
 			{
 				try 
 				{
+					myController->requestNavigationData(DEMO);
 					myCommunicationChannel.receive(navDataDemo, navDataLength);
+					cnt++;
+					if(cnt >= 5)
+					{
+						cnt =0;
 						synchronized(myMutex)
 						{
 							MemoryLibrary::Buffer navDataBuffer(navDataDemo, navDataLength);
 							parse(navDataBuffer);
 							navTimestamp = (long)(seconds() * 1000.0);
 						}
-					msleep(200); //slow things down a bit
+						std::cout << "Altitude = " << myNavData.altitude << std::endl;
+					}
+					
 				}
 				catch (ccxx::TimeoutException& timeoutEx) 
 				{
@@ -95,14 +90,13 @@ namespace ARDrone
 		
 		std::cout << "NavigationDataReceiver stopped\n";
 	}
-
 	bool NavigationDataReceiver::parse(MemoryLibrary::Buffer& buffer)
 	{
 		int offset = 0;
 		int header = buffer.MakeValueFromOffset<int32_t>(offset);
 		if(header != 0x55667788)
 		{
-			std::cout << "NavigationDataReceiver FAIL, because the header != 0x55667788\n";
+			std::cout << "NavigationDataReceiver::Parse FAIL, header != 0x55667788\n";
 			return false;
 		}
 		offset += 4;
@@ -126,7 +120,7 @@ namespace ARDrone
 			
 			if(option_len == 0)
 			{
-				std::cout << "NavigationDataReceiver FAIL, option_len == 0\n";
+				std::cout << "NavigationDataReceiver::Parse FAIL, option_len == 0\n";
 				return false;
 			}
 			

@@ -100,7 +100,7 @@ namespace ARDrone
 		bool batteryTooHigh;
 		bool timerElapsed;
 		bool notEnoughPower;
-		bool anglesOutOfRange;
+		bool angelsOutOufRange;
 		bool tooMuchWind;
 		bool ultrasonicSensorDeaf;
 		bool cutoutSystemDetected;
@@ -119,6 +119,7 @@ namespace ARDrone
   {
   public:
 	  /**
+	   
 	   **/
 	  const char* controlStateToString(eControlState cs);
 	  const char* controlStateAsString();

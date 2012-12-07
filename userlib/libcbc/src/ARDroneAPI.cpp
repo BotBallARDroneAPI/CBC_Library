@@ -12,48 +12,149 @@
 using namespace ARDrone;
 using namespace std;
 
-
 #define	LOCKED 1
 #define UNLOCKED 0
 
+/**
+ @brief The supported movement types
+ **/
 enum movement_types{
 	MOVEMENT = 0,
 	ANIMATION = 1
 };
 
+/**
+ @brief The minimum battery level before a warning is printed on the screen
+ **/
 const int MINIMUM_BATTERY_LEVEL = 10;
 
+/**
+ A pointer to the drone object for manipulation
+ **/
 Drone * myDrone;
+
+/**
+ @brief boolean indicating if the drone has been connected or not
+ **/
 bool drone_connected = false;
 
-bool watchdog_enable = false;
-int watchdog_pid;
-
+/**
+ Requested move type
+ **/
 int move_type = MOVEMENT;
+
+/**
+ @brief Requested Animation type
+ **/
 int anim_type = 0;
+
+/**
+ @brief Mutual Exclusion implementation for move control process
+ **/
 int locker = UNLOCKED;
+
+/**
+ @brief Requested time for an animation request
+ **/
 int anim_time = 0;
 
+/**
+ @brief Variable to keep the battery value stored
+ **/
 int cached_battery = 0;
-float x,y,z,yaw;
-float vx, vy, vz;
-float last_nav_receive;
-float last_nav_calc;
-int sensors_pid;
 
+/**
+ @brief The current x coordinate
+ **/
+float x;
+
+/**
+ @brief The current y coordinate
+ **/
+float y;
+
+/**
+ @brief The current z coordinate
+ **/
+float z;
+
+/**
+ @brief The current relative rotation
+ **/
+float yaw;
+
+/**
+ @brief The change in x coordinate
+ **/
+float vx;
+
+/**
+ @brief The change in y coordinate
+ **/
+float vy;
+
+/**
+ @brief The change in z coordinate
+ **/
+float vz;
+
+/**
+ @brief Timestamp indication 
+ **/
+float last_nav_receive;
+
+/**
+ @brief Timestamp indicating the last time the navdata was calculated
+ **/
+float last_nav_calc;
+
+/**
+ @brief Flag indicating the drone movement has been disabled (hover)
+ **/
 int requested_enable_move = 0;
+
+/**
+ @brief The requested x velocity percentage
+ **/
 float requested_x_tilt = 0.0;
+
+/**
+ @brief The requested y velocity percentage
+ **/
 float requested_y_tilt = 0.0;
-float requested_yaw_vel = 0.0;
+
+/**
+ @brief The requested z velocity percentage
+ **/
 float requested_z_vel = 0.0;
+
+/**
+ @brief The requested yaw (rotation) velocity percentage
+ **/
+float requested_yaw_vel = 0.0;
+
+/**
+ @brief The process id of the control thread
+ **/
 int control_pid;
 
-std::vector<VisionTag> visionTagVector;
+/**
+ The process id of the sensor thread
+ **/
+int sensors_pid;
 
-void monitor_sensors(); //Process
+/**
+ @brief A string representing the drones firmware version
+ //This functionality is not supported for 1.7.11 but has been confirmed on 1.10.10
+ **/
+//std::string firmware_Version;
+//bool firmwareReceived = false;
+
+
+void monitor_sensors(); 
 void init_position_tracking();
 void update_position_tracking();
-void move_control_thread(); //Process
+void move_control_thread();
 
 void send_control_parameters(int enable, float x_tilt, float y_tilt, float yaw_vel, float z_vel);
 
@@ -75,7 +176,7 @@ void monitor_sensors()
 		{
 			printf("Battery Level is low. %i\n", battery);
 		}
-			update_position_tracking();
+		update_position_tracking();
 		msleep(15);
 	}
 }
@@ -87,9 +188,7 @@ void drone_connect()
 	{
 		myDrone = new Drone();
 		myDrone->start();
-		
-		watchdog_enable = true;
-		
+
 		cached_battery = 0;
 		init_position_tracking();
 		
@@ -107,8 +206,6 @@ void drone_disconnect()
 	{
 		kill_process(control_pid);
 		kill_process(sensors_pid);
-		
-		watchdog_enable = false;
 		
 		myDrone->stop();
 		delete myDrone;
@@ -171,8 +268,8 @@ void init_position_tracking()
     vy=0;
     vz=0;
 	
-    last_nav_receive=seconds();
-    last_nav_calc=seconds();
+    last_nav_receive = seconds();
+    last_nav_calc = seconds();
 	
 	requested_enable_move = 0;
 	requested_x_tilt = 0.0;
@@ -190,17 +287,17 @@ void update_position_tracking()
 	float current_receive_time = myDrone->navigationDataReceiver().navTimestamp * TIMESTAMP_PER_SECOND;
 	float current_time = seconds();
 
-	//copy vision tag vector
-	visionTagVector = latest_data.visionTagVector;
-
-
-	//for testing.... output visionTagVector types
-	for(int i = 0; i < visionTagVector.size(); i++)
+	/*
+	 This functionality is not supported for 1.7.11 but has been confirmed on 1.10.10
+	if (!firmwareReceived)
 	{
-		printf("Index: %d, Type: %d\n", i, visionTagVector.at(i).type);
-	}
-
-
+		int success = myDrone->configDataReceiver().getFirmwareVersion(firmware_Version);
+		if( success == 0 )
+		{
+			firmwareReceived = true;
+		}
+	}*/
+	
 	bool zero_vx = false;
 	bool zero_vy = false;
 	bool zero_z = false;
