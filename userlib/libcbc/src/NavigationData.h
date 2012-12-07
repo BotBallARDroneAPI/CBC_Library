@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <sstream>
+#include <stdio.h>
 
 #define NAVDATA_DEMO_TAG (0)
 #define NAVDATA_TIME_TAG (1)

@@ -69,7 +69,6 @@ namespace ARDrone
 							parse(navDataBuffer);
 							navTimestamp = (long)(seconds() * 1000.0);
 						}
-						std::cout << "Altitude = " << myNavData.altitude << std::endl;
 					}
 					
 				}
